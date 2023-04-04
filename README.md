@@ -6,11 +6,12 @@ Analyzing beauty product reviews on Amazon Vine
 ## dataset: https://s3.amazonaws.com/amazon-reviews-pds/tsv/amazon_reviews_us_Beauty_v1_00.tsv.gz
 
 ## results: 
-We filtered on reviews that had 20 total votes or more and those that had a 50% or more helpfulness score (to use the most relevant Amazon reviews). 
+We filtered on reviews that had 20 total votes or more and those that had a 50% or more helpfulness score (to use the most relevant Amazon reviews). See code snippet below.  
 
 ``
 vine_df_new = vine_df.where(vine_df.total_votes>='20')
 vine_df_new.show()
+
 vine_df_final = vine_df_new.withColumn("helpfulness", col("helpful_votes") / col("total_votes")*100)
 vine_df_final.show()
 ``
