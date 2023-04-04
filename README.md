@@ -11,7 +11,8 @@ We filtered on reviews that had 20 total votes or more and those that had a 50% 
 ``
 vine_df_new = vine_df.where(vine_df.total_votes>='20')
 vine_df_new.show()
-
+``
+``
 vine_df_final = vine_df_new.withColumn("helpfulness", col("helpful_votes") / col("total_votes")*100)
 vine_df_final.show()
 ``
