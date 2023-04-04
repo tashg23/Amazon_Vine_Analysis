@@ -5,26 +5,23 @@ Analyzing beauty product reviews on Amazon Vine
 
 ## dataset: https://s3.amazonaws.com/amazon-reviews-pds/tsv/amazon_reviews_us_Beauty_v1_00.tsv.gz
 
-## methodology: 
-1. Created database with Amazon RDS
-2. Create schema in pgAdmin using schema.sql (in folder) 
-3. Cleaned/transformed data from S3 bucket using Google Colab (Amazon_Reviews_ETL.ipynb)
-4. Imported cleaned tables into pgAdmin 
+## results: 
+We filtered on reviews that had 20 total votes or more and those that had a 50% or more helpfulness score (to use the most relevant Amazon reviews). 
 
-4 tables were created for this database: 
-review_id table
-![review_id_table](https://user-images.githubusercontent.com/113721712/229587929-00bd98a0-df65-49c9-bba0-f38e2dfdf068.png)
+`code`
+# Filter table by total votes greater than 20 for most relevant reviews 
+vine_df_new = vine_df.where(vine_df.total_votes>='20')
+vine_df_new.show()
 
-vine_table
-![vine_table](https://user-images.githubusercontent.com/113721712/229593186-0c87b4cc-6f61-43e9-a215-18708443a273.png)
+# helpful votes percentage 50% or greater
+vine_df_final = vine_df_new.withColumn("helpfulness", col("helpful_votes") / col("total_votes")*100)
+vine_df_final.show()
 
-customer_table
-![customers_table](https://user-images.githubusercontent.com/113721712/229593208-ba91a44a-6577-41e0-b1c2-fd9b97e4a1dd.png)
+`code`
 
-products_table 
-![Products_table](https://user-images.githubusercontent.com/113721712/229594269-7d781b64-db06-4088-9e75-9bfbb4217da9.png)
+There were 647 Vine reviews and 74,113 non-Vine reviews. Of the Vine reviews, 229 were 5 star reviews (35% of the paid reviews), while of the non-Vine reviews, 43,217 were 5 star reviews (58% of the unpaid reviews). 
 
+Based on the proportion of 5 star reviews for Vine and non-Vine reviews, it doesn't seem that being paid for a review results in a more positive review. 
 
-
-
+It would be interesting to do a sentiment analysis of the Vine vs non-Vine reviews to see if there is a different in sentiment between paid vs non paid reviews. 
 
