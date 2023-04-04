@@ -12,11 +12,10 @@ We filtered on reviews that had 20 total votes or more and those that had a 50% 
 # Filter table by total votes greater than 20 for most relevant reviews 
 vine_df_new = vine_df.where(vine_df.total_votes>='20')
 vine_df_new.show()
-
+`code`
 # helpful votes percentage 50% or greater
 vine_df_final = vine_df_new.withColumn("helpfulness", col("helpful_votes") / col("total_votes")*100)
 vine_df_final.show()
-
 `code`
 
 There were 647 Vine reviews and 74,113 non-Vine reviews. Of the Vine reviews, 229 were 5 star reviews (35% of the paid reviews), while of the non-Vine reviews, 43,217 were 5 star reviews (58% of the unpaid reviews). 
